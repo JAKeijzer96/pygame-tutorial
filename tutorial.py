@@ -13,8 +13,6 @@ LIGHT_GREEN = (0, 255, 0)
 YELLOW = (200, 200, 0)
 LIGHT_YELLOW = (255, 255, 0)
 
-
-
 display_width = 800
 display_height = 600
 
@@ -25,6 +23,10 @@ pg.display.set_caption('Tanks')
 clock = pg.time.Clock() # pg clock object used to set fps
 fps = 15
 
+main_tank_x = int(display_width * 0.9)
+main_tank_y = int(display_height * 0.9)
+tank_width = 40
+tank_height = 20
 
 smallfont = pg.font.SysFont("calibri", 25) # size 25
 medfont = pg.font.SysFont("comicsansms", 50) # size 25
@@ -40,7 +42,7 @@ def game_intro():
                 exit()
             if event.type == pg.KEYDOWN:
                 if event.key == pg.K_c:
-                    intro = False
+                    game_loop()
                 if event.key == pg.K_q:
                     pg.quit()
                     exit()
@@ -112,6 +114,13 @@ def game_controls():
 
         pg.display.update()
         clock.tick(15) # no need for high fps, just dont make the delay on keydown too long
+
+def tank(x,y):
+    x, y = int(x), int(y)
+    pg.draw.circle(program_surface, BLACK, (x, y), tank_height//2)
+    pg.draw.rect(program_surface, BLACK, (x-tank_width//2, y, tank_width, tank_height))
+
+
 
 def text_objects(text, color, size):
     if size == "small":
@@ -188,7 +197,7 @@ def game_loop():
 
 
         program_surface.fill(WHITE)
-
+        tank(main_tank_x, main_tank_y)
         print_score(score)
         pg.display.update()
 
